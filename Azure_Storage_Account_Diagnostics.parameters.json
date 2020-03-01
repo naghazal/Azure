@@ -1,0 +1,45 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "DiagnosticsStorageAccountName": {
+            "value": "ENTER STORAGE ACCOUNT NAME HERE (THIS NAME MUST BE GLOBALLY UNIQUE WITHIN AZURE)."
+        },
+        "PrimaryRegionVirtualNetworkResourceGroupName": {
+            "value": "RG-AIRS-EUS-Networking"
+        },
+        "PrimaryRegionVirtualNetworkName": {
+            "value": "VNET-AIRS-EUS-01"
+        },
+        "ManagementSubnetName": {
+            "value": "Management"
+        },
+        "PrimaryRegionDirectoryServicesSubnetName": {
+            "value": "DirectoryServices"
+        },        
+        "NTierWebSubnetName": {
+            "value": "NTierWeb"
+        },
+        "NTierDBSubnetName": {
+            "value": "NTierDB"
+        },
+        "VMSSSubnetName": {
+            "value": "VMSS"
+        },
+        "ClientServicesSubnetName": {
+            "value": "ClientServices"
+        },
+        "SecondaryRegionVirtualNetworkResourceGroupName": {
+            "value": "RG-AIRS-WUS-Networking"
+        },        
+        "SecondaryRegionVirtualNetworkName": {
+            "value": "VNET-AIRS-WUS-01"
+        },
+        "SecondaryRegionDirectoryServicesSubnetName": {
+            "value": "DirectoryServices"
+        }, 
+        "sourceAddressPrefix": {
+            "value": "ENTER SOURCE ADDRESS PREFIX HERE (IP ADDRESS FROM WHERE YOU WILL BE CONNECTING)"
+        }
+    }
+}

@@ -1,0 +1,201 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "ResourceGroupLocationPolicyDefinitionName": {
+            "type": "string",
+            "metadata": {
+                "description": "The Name of the Resource Group Location Policy Definition."
+            }
+        },    
+        "ResourceLocationPolicyDefinitionName": {
+            "type": "string",
+            "metadata": {
+                "description": "The Name of the Resource Group Location Policy Definition."
+            }
+        },
+        "VirtualMachineSKUsPolicyDefinitionName": {
+            "type": "string",
+            "metadata": {
+                "description": "The Name of the Virtual Machine SKU Policy Definition."
+            }
+        }, 
+        "ResourceGroupLocationPolicyAssignmentName": {
+            "type": "string",
+            "metadata": {
+                "description": "The Name of the Resource Group Location Policy Assignment."
+            }
+        },
+        "ResourceLocationPolicyAssignmentName": {
+            "type": "string",
+            "metadata": {
+                "description": "The Name of the Resource Group Location Policy Assignment."
+            }
+        },
+        "VirtualMachineSKUsPolicyAssignmentName": {
+            "type": "string",
+            "metadata": {
+                "description": "The Name of the Virtual Machine SKU Policy Definition."
+            }
+        }, 
+        "listOfAllowedLocations": {
+            "type": "array",
+            "metadata": {
+                "description": "The List of Locations for Resource Groups and Resources."
+            }
+        },
+        "listOfAllowedVirtualMachineSKUs": {
+            "type": "array",
+            "metadata": {
+                "description": "The List of SKUs for Virtual Machines."
+            }
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Authorization/policyDefinitions",
+            "apiVersion": "2018-03-01",
+            "name": "[parameters('ResourceGroupLocationPolicyDefinitionName')]",
+            "properties": {
+                "displayName": "Allowed Resource Group Locations",
+                "policyType": "Custom",
+                "mode": "All",
+                "description": "This policy enables you to restrict the locations your organization can create resource groups in. Use to enforce your geo-compliance requirements.",
+                "parameters": {},
+                "policyRule": {
+                    "if": {
+                        "allOf": [
+                            {
+                                "field": "location",
+                                "notIn": "[parameters('listOfAllowedLocations')]"
+                            },
+                            {
+                                "field": "type",
+                                "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+                            }
+                        ]
+                    },
+                    "then": {
+                        "effect": "deny"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Authorization/policyAssignments",
+            "apiVersion": "2018-03-01",
+            "name": "[parameters('ResourceGroupLocationPolicyAssignmentName')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Authorization/policyDefinitions', parameters('ResourceGroupLocationPolicyDefinitionName'))]"
+            ],
+            "properties": {
+                "displayName": "[parameters('ResourceGroupLocationPolicyAssignmentName')]",
+                "description": "This policy enables you to restrict the locations your organization can create resource groups in. Use to enforce your geo-compliance requirements.",
+                "metadata": {
+                    "assignedBy": "Owner"
+                },
+                "scope": "[concat('/subscriptions/', subscription().subscriptionId)]",
+                "policyDefinitionId": "[resourceId('Microsoft.Authorization/policyDefinitions', parameters('ResourceGroupLocationPolicyDefinitionName'))]"
+            }
+        },
+        {
+            "type": "Microsoft.Authorization/policyDefinitions",
+            "apiVersion": "2018-05-01",
+            "name": "[parameters('ResourceLocationpolicyDefinitionName')]",
+            "properties": {
+                "displayName": "Allowed Resource Locations",
+                "policyType": "Custom",
+                "mode": "Indexed",
+                "description": "This policy enables you to restrict the locations your organization can specify when deploying resources. Use to enforce your geo-compliance requirements. Excludes resource groups, Microsoft.AzureActiveDirectory/b2cDirectories, and resources that use the 'global' region.",
+                "parameters": {},
+                "policyRule": {
+                    "if": {
+                        "allOf": [
+                            {
+                                "field": "location",
+                                "notIn": "[parameters('listOfAllowedLocations')]"
+                            },
+                            {
+                                "field": "location",
+                                "notEquals": "global"
+                            },
+                            {
+                                "field": "type",
+                                "notEquals": "Microsoft.AzureActiveDirectory/b2cDirectories"
+                            }
+                        ]
+                    },
+                    "then": {
+                        "effect": "deny"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Authorization/policyAssignments",
+            "apiVersion": "2018-03-01",
+            "name": "[parameters('ResourceLocationPolicyAssignmentName')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Authorization/policyDefinitions', parameters('ResourceLocationPolicyDefinitionName'))]"
+            ],
+            "properties": {
+                "displayName": "[parameters('ResourceLocationPolicyAssignmentName')]",
+                "description": "This policy enables you to restrict the locations your organization can create resource groups in. Use to enforce your geo-compliance requirements.",
+                "metadata": {
+                    "assignedBy": "Owner"
+                },
+                "scope": "[concat('/subscriptions/', subscription().subscriptionId)]",
+                "policyDefinitionId": "[resourceId('Microsoft.Authorization/policyDefinitions', parameters('ResourceLocationPolicyDefinitionName'))]"
+            }
+        },
+        {
+            "type": "Microsoft.Authorization/policyDefinitions",
+            "apiVersion": "2018-05-01",
+            "name": "[parameters('VirtualMachineSKUsPolicyDefinitionName')]",
+            "properties": {
+                "displayName": "Allowed Virtual Machine SKUs",
+                "policyType": "Custom",
+                "mode": "Indexed",
+                "description": "This policy enables you to specify a set of virtual machine SKUs that your organization can deploy.",
+                "parameters": {
+                },
+                "policyRule": {
+                    "if": {
+                        "allOf": [
+                            {
+                                "field": "type",
+                                "equals": "Microsoft.Compute/virtualMachines"
+                            },
+                            {
+                                "not": {
+                                "field": "Microsoft.Compute/virtualMachines/sku.name",
+                                "in": "[parameters('listOfAllowedVirtualMachineSKUs')]"
+                                }
+                            }
+                        ]
+                    },
+                    "then": {
+                        "effect": "deny"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Authorization/policyAssignments",
+            "apiVersion": "2018-03-01",
+            "name": "[parameters('VirtualMachineSKUsPolicyAssignmentName')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Authorization/policyDefinitions', parameters('VirtualMachineSKUsPolicyDefinitionName'))]"
+            ],
+            "properties": {
+                "displayName": "[parameters('VirtualMachineSKUsPolicyAssignmentName')]",
+                "description": "This policy enables you to specify a set of virtual machine SKUs that your organization can deploy.",
+                "metadata": {
+                    "assignedBy": "Owner"
+                },
+                "scope": "[concat('/subscriptions/', subscription().subscriptionId)]",
+                "policyDefinitionId": "[resourceId('Microsoft.Authorization/policyDefinitions', parameters('VirtualMachineSKUsPolicyDefinitionName'))]"
+            }
+        }
+    ]
+}

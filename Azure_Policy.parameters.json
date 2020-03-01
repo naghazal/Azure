@@ -1,0 +1,43 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "ResourceGroupLocationPolicyDefinitionName": {
+            "value": "Allowed Resource Group Locations"
+        },
+        "ResourceLocationPolicyDefinitionName": {
+            "value": "Allowed Resource Locations"
+        },
+        "VirtualMachineSKUsPolicyDefinitionName": {
+            "value": "Allowed Virtual Machine SKUs"
+        },
+        "ResourceGroupLocationPolicyAssignmentName": {
+            "value": "Allowed Resource Group Locations"
+        },
+        "ResourceLocationPolicyAssignmentName": {
+            "value": "Allowed Resource Locations"
+        },
+        "VirtualMachineSKUsPolicyAssignmentName": {
+            "value": "Allowed Virtual Machine SKUs"
+        },
+        "listOfAllowedLocations": {
+            "value": [
+                "EastUS",
+                "WestUS",
+		"WestEurope"
+            ]
+        },
+        "listOfAllowedVirtualMachineSKUs": {
+            "value": [
+                "Standard_A1_v2",
+                "Standard_B1ls",
+                "Standard_B1ms",
+                "Standard_B1s",
+                "Standard_B2ms",
+                "Standard_B2s",
+                "Standard_B4ms",
+                "Standard_B4s"
+            ]
+        }
+    }
+}
