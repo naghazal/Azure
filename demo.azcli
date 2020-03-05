@@ -1,0 +1,128 @@
+############################################ Demo Azure Administration Module 1 ############################################################
+
+#Install Powershell Core
+https://github.com/PowerShell/PowerShell/releases/tag/v6.2.2
+
+#Check PowerShell version
+$PSVersionTable.PSVersion
+
+#List PowerShell Modules
+Get-Module
+
+#To install the Azure PowerShell module for the current user:
+Install-Module -Name Az -AllowClobber -Scope CurrentUser
+
+#To install the Azure PowerShell module for all users (Run PowerShell with Admin):
+Install-Module -Name Az -AllowClobber -Scope AllUsers
+
+#Download the x64 MSI at the link below to install the Azure PowerShell module in offline mode.
+https://github.com/Azure/azure-powershell/releases/tag/v2.8.0-October2019
+
+#Logging in from a local PowerShell session
+Connect-AzAccount
+
+#The Most Important Azure PowerShell Commands
+
+Get-AzVm and New-AzVm
+Get-AzSubscription
+Start-AzVm, Stop-AzVm, and Remove-AzVm
+Get-AzResourcce and Move-AzResource
+Get-AzResourceGroup, New-AzResourceGroup, and Set-AzResourceGroup
+Get-AzStorageAccount and New-AzStorageAccount
+Login-AzAccount and Logout-AzAccount
+Get-AZVirtualNetwork
+Get-AZLoadBalancer
+New-AZVirtualNetwork
+New-AzPublicIPAddress
+Get-AzLocation | select Location
+
+#Creating Virtual Machines Using PowerShell in Azure
+
+#To create a resource group:
+New-AzResourceGroup -Name EsetResourceGroup -Location EastUS
+
+#To create the virtual machine:
+New-AzVm `
+    -ResourceGroupName "Eset" `
+    -Name "EsetVM" `
+    -Location "East US" `
+    -VirtualNetworkName "EsetVnet" `
+    -SubnetName "EsetSubnet" `
+    -SecurityGroupName "EsetNetworkSecurityGroup" `
+    -PublicIpAddressName "EsetPublicIpAddress" `
+    -OpenPorts 80,3389
+
+#To obtain the public IP address of your newly created VM:
+Get-AzPublicIpAddress -ResourceGroupName "myResourceGroup" | Select "IpAddress"
+
+#To launch Remote Desktop from PowerShell:
+mstsc /v:publicIpAddress
+
+#Restart created VM using Azure CLI
+az vm restart -g MyResourceGroup -n MyVm
+
+################################ Module 02: Azure Virtual Machines ##########################################################################
+
+
+
+################################ Demo Azure Policy Module 11 ################################################################################
+
+#Get a list of your subscriptions
+az account list --output table
+
+#Use az account set with the subscription ID or name you want to switch to
+az account set --subscription "Training"
+
+#   - Allowed Resource Group Locations
+#   - Allowed Resource Locations
+#   - Allowed Virtual Machine SKUs.
+
+$DeploymentName='AzurePolicyDeployment3'
+$Location='WestUS'
+$TemplateFile='C:\AzureDemoEnvironment\01_Azure_Policy\Azure_Policy.json'
+$ParametersFile='C:\AzureDemoEnvironment\01_Azure_Policy\Azure_Policy.parameters.json'
+az deployment create -n $DeploymentName -l $Location --template-file $TemplateFile --parameters $ParametersFile
+
+#Applying Tags to a resource in Azure Using PowerShell from "Cloud Shell"
+
+#   - get the resource group name
+Get-AzureRmResource
+
+#   - Store resouce in var
+$r = Get-AzureRMResource -ResourceName lab-vm -ResourceGroupName <YOUR_COPIED_INFORMATION>
+
+#   - Apply Tags
+Set-AzureRmResource -Tag @{ Dept="IT"; Environment="Test" } -ResourceId $r.ResourceID -Force
+
+################################################## Demo Azure Storage Module 03 ################################################################
+
+#Create a storage account using PowerShell
+# If you're not sure which region to specify for the -Location parameter /!\
+Get-AzLocation | select Location
+
+$resourceGroup = "storage-resource-group"
+$location = "westus"
+New-AzResourceGroup -Name $resourceGroup -Location $location
+
+New-AzStorageAccount -ResourceGroupName $resourceGroup `
+  -Name demoaccount `
+  -Location $location `
+  -SkuName Standard_LRS `
+  -Kind StorageV2
+
+#Create a storage account using CLI
+# If you're not sure which region to specify for the -Location parameter /!\
+az account list-locations \
+    --query "[].{Region:name}" \
+    --out table
+
+az group create \
+    --name storage-resource-group \
+    --location westus
+
+az storage account create \
+    --name <account-name> \
+    --resource-group storage-resource-group \
+    --location westus \
+    --sku Standard_RAGRS \
+    --kind StorageV2
