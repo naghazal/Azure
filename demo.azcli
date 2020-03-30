@@ -21,6 +21,16 @@ https://github.com/Azure/azure-powershell/releases/tag/v2.8.0-October2019
 #Logging in from a local PowerShell session
 Connect-AzAccount
 
+#List resource groups
+Get-AzResourceGroup
+
+#List Azure Subscriptions
+Get-AzSubscription
+
+#Change the active subscription
+$context = Get-AzSubscription -SubscriptionId ...
+Set-AzContext $context
+
 #The Most Important Azure PowerShell Commands
 
 Get-AzVm and New-AzVm
@@ -43,13 +53,13 @@ New-AzResourceGroup -Name EsetResourceGroup -Location EastUS
 
 #To create the virtual machine:
 New-AzVm `
-    -ResourceGroupName "Eset" `
-    -Name "EsetVM" `
+    -ResourceGroupName "ABNAmro" `
+    -Name "ABNAmroVM" `
     -Location "East US" `
-    -VirtualNetworkName "EsetVnet" `
-    -SubnetName "EsetSubnet" `
-    -SecurityGroupName "EsetNetworkSecurityGroup" `
-    -PublicIpAddressName "EsetPublicIpAddress" `
+    -VirtualNetworkName "ABNAmroVnet" `
+    -SubnetName "ABNAmroSubnet" `
+    -SecurityGroupName "ABNAmroNetworkSecurityGroup" `
+    -PublicIpAddressName "ABNAmroPublicIpAddress" `
     -OpenPorts 80,3389
 
 #To obtain the public IP address of your newly created VM:
@@ -57,6 +67,9 @@ Get-AzPublicIpAddress -ResourceGroupName "myResourceGroup" | Select "IpAddress"
 
 #To launch Remote Desktop from PowerShell:
 mstsc /v:publicIpAddress
+
+#Stop a virtual machine
+Stop-AzVm -ResourceGroupName "ABNAmro" -Name "ABNAmroVM"
 
 #Restart created VM using Azure CLI
 az vm restart -g MyResourceGroup -n MyVm
