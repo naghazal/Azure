@@ -1,4 +1,4 @@
-############################################ Demo Azure Administration Module 1 ############################################################
+############################################ Demo Azure Administration ############################################################
 
 #Install Powershell Core
 https://github.com/PowerShell/PowerShell/releases/tag/v6.2.2
@@ -49,36 +49,32 @@ Get-AzLocation | select Location
 #Creating Virtual Machines Using PowerShell in Azure
 
 #To create a resource group:
-New-AzResourceGroup -Name EsetResourceGroup -Location EastUS
+New-AzResourceGroup -Name az-104-PS -Location EastUS
 
 #To create the virtual machine:
 New-AzVm `
-    -ResourceGroupName "ABNAmro" `
-    -Name "ABNAmroVM" `
-    -Location "East US" `
-    -VirtualNetworkName "ABNAmroVnet" `
-    -SubnetName "ABNAmroSubnet" `
-    -SecurityGroupName "ABNAmroNetworkSecurityGroup" `
-    -PublicIpAddressName "ABNAmroPublicIpAddress" `
-    -OpenPorts 80,3389
+    -ResourceGroupName "AZ104Group" `
+    -Name "AZ104VM" `
+    -Location "westus2" `
+    -Size "Standard_B1s"
 
 #To obtain the public IP address of your newly created VM:
-Get-AzPublicIpAddress -ResourceGroupName "myResourceGroup" | Select "IpAddress"
+Get-AzPublicIpAddress -ResourceGroupName "AZ104Group" | Select "IpAddress"
 
 #To launch Remote Desktop from PowerShell:
 mstsc /v:publicIpAddress
 
 #Stop a virtual machine
-Stop-AzVm -ResourceGroupName "ABNAmro" -Name "ABNAmroVM"
+Stop-AzVm -ResourceGroupName "AZ104Group" -Name "AZ104VM"
 
 #Restart created VM using Azure CLI
-az vm restart -g MyResourceGroup -n MyVm
+az vm restart -g AZ104Group -n AZ104VM
 
-################################ Module 02: Azure Virtual Machines ##########################################################################
+################################ Azure Virtual Machines ##########################################################################
 
 
 
-################################ Demo Azure Policy Module 11 ################################################################################
+################################ Demo Azure Policy ################################################################################
 
 #Get a list of your subscriptions
 az account list --output table
@@ -90,8 +86,8 @@ az account set --subscription "Training"
 #   - Allowed Resource Locations
 #   - Allowed Virtual Machine SKUs.
 
-$DeploymentName='AzurePolicyDeployment3'
-$Location='WestUS'
+$DeploymentName='AzurePolicyDeployment'
+$Location='westeurope'
 $TemplateFile='C:\AzureDemoEnvironment\01_Azure_Policy\Azure_Policy.json'
 $ParametersFile='C:\AzureDemoEnvironment\01_Azure_Policy\Azure_Policy.parameters.json'
 az deployment create -n $DeploymentName -l $Location --template-file $TemplateFile --parameters $ParametersFile
@@ -107,7 +103,7 @@ $r = Get-AzureRMResource -ResourceName lab-vm -ResourceGroupName <YOUR_COPIED_IN
 #   - Apply Tags
 Set-AzureRmResource -Tag @{ Dept="IT"; Environment="Test" } -ResourceId $r.ResourceID -Force
 
-################################################## Demo Azure Storage Module 03 ################################################################
+################################################## Demo Azure Storage ################################################################
 
 #Create a storage account using PowerShell
 # If you're not sure which region to specify for the -Location parameter /!\
@@ -125,13 +121,9 @@ New-AzStorageAccount -ResourceGroupName $resourceGroup `
 
 #Create a storage account using CLI
 # If you're not sure which region to specify for the -Location parameter /!\
-az account list-locations \
-    --query "[].{Region:name}" \
-    --out table
+az account list-locations --query "[].{Region:name}" --out table
 
-az group create \
-    --name storage-resource-group \
-    --location westus
+az group create --name storage-resource-group --location westus
 
 az storage account create \
     --name <account-name> \
