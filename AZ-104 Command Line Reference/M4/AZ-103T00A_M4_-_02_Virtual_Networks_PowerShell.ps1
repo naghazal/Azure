@@ -11,16 +11,16 @@ Get-AzSubscription
 Select-AzSubscription -Subscription "Microsoft Azure Internal Consumption"  
 
 #Create Resource Group
-New-AzResourceGroup -Name RG-AZ103T00M4-VNETPS -Location EastUS
+New-AzResourceGroup -Name ING-RG -Location WestEurope
 
 #Create Virtual Network
-$myVNet2 = New-AzVirtualNetwork -ResourceGroupName RG-AZ103T00M4-VNETPS -Location EastUS -Name myVNet2 -AddressPrefix 10.2.0.0/16
+New-AzVirtualNetwork -ResourceGroupName ING-RG -Location WestEurope -Name ING-Vnet2 -AddressPrefix 10.2.0.0/16
 
 #Verify Virtual Network
-Get-AzVirtualNetwork -ResourceGroupName RG-AZ103T00M4-VNETPS -Name myVNet2
+$myVNet2 = Get-AzVirtualNetwork -ResourceGroupName ING-RG -Name ING-Vnet2
 
 #Create a Subnet
-$mySubnet2 = Add-AzVirtualNetworkSubnetConfig -Name mySubnet2 -AddressPrefix 10.2.0.0/24 -VirtualNetwork $myVNet2
+$mySubnet2 = Add-AzVirtualNetworkSubnetConfig -Name FE -AddressPrefix 10.2.0.0/24 -VirtualNetwork $myVNet2
 
 #Verify Subnet
 Get-AzVirtualNetworkSubnetConfig -Name mySubnet2 -VirtualNetwork $myVNet2
