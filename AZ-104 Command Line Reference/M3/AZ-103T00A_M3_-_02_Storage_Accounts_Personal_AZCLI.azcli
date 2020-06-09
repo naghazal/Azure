@@ -1,0 +1,22 @@
+#Demonstration - Creating Storage Accounts
+#In this demonstration, we will look at creating Storage Accounts
+#A globally unique Storage Account name is required
+
+#Create a Storage Account using the Azure CLI
+#Verify Azure CLI Version
+az --version
+
+#Login to Azure
+#Azure CLI will typically launch your default browser to open the Azure sign-in page.
+az login
+
+#View Subscription Information
+az account list --output table
+
+#Select Subscription
+az account set --subscription "Microsoft Azure Internal Consumption"
+
+#Create Storage Account
+az group create -n RG-AZ103T00M3-CLIStorage --location EastUS
+az account list-locations --query "[].{Region:name}" --out table
+az storage account create -n saaz103t00m3clistorage -g RG-AZ103T00M3-CLIStorage -l EastUS --sku Standard_LRS --kind StorageV2

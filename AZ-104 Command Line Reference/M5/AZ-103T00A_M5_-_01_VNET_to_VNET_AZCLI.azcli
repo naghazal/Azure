@@ -1,0 +1,34 @@
+#Demonstration - VNET to VNET Connections
+#This demonstation requires two Virtual Networks, Subnets, Gateway Subnets, Virtual Network Gateways, and Connections.
+#The following commands will create the Virtual Networks, Subnets, Gateway Subnets, and Virtual Network Gateways.
+#The deployment process will take approximately 45 minutes to deploy.  Consider running this prior to beginning Module 5
+
+#Create Virtual Networks using Azure CLI
+
+#Verify Azure CLI Version
+az --version
+
+#Login to Azure
+#Azure CLI will typically launch your default browser to open the Azure sign-in page.
+az login
+
+#View Subscription Information
+az account list --output table
+
+#Select Subscription
+az account set --subscription "Microsoft Azure Internal Consumption"
+
+#Create Resource Group, Virtual Networks, Subnets, and Gatewway Subnets
+az group create -n RG-AZ103T00M5-VNET2VNET -l EastUS
+az network vnet create -g RG-AZ103T00M5-VNET2VNET -n VNET01 --address-prefix 10.1.0.0/16 --subnet-name FrontEnd --subnet-prefix 10.1.1.0/24
+az network vnet subnet create -g RG-AZ103T00M5-VNET2VNET --vnet-name VNET01 -n GatewaySubnet --address-prefix 10.1.0.0/24
+az network vnet create -g RG-AZ103T00M5-VNET2VNET -n VNET02 --address-prefix 10.2.0.0/16 --subnet-name FrontEnd --subnet-prefix 10.2.1.0/24
+az network vnet subnet create -g RG-AZ103T00M5-VNET2VNET --vnet-name VNET02 -n GatewaySubnet --address-prefix 10.2.0.0/24
+
+#Create Public IP Addresses for Virtual Network Gateway
+az network public-ip create -g RG-AZ103T00M5-VNET2VNET -n VNG01-ip --allocation-method dynamic
+az network public-ip create -g RG-AZ103T00M5-VNET2VNET -n VNG02-ip --allocation-method dynamic
+
+#Create Virtual Network Gateways
+az network vnet-gateway create -g RG-AZ103T00M5-VNET2VNET -n VNG01 --public-ip-address VNG01-ip --vnet VNET01 --gateway-type Vpn --sku VpnGw1 --vpn-type RouteBased --no-wait
+az network vnet-gateway create -g RG-AZ103T00M5-VNET2VNET -n VNG02 --public-ip-address VNG02-ip --vnet VNET02 --gateway-type Vpn --sku VpnGw1 --vpn-type RouteBased --no-wait

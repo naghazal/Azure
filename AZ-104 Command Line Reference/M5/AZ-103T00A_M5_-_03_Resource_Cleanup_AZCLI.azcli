@@ -1,0 +1,3 @@
+#Remove Resource Groups
+az group delete -n RG-AZ103T00M5-VNET2VNET --no-wait -y
+az group delete -n RG-AZ103T00M4-VNETPeering --no-wait -y

@@ -1,0 +1,4 @@
+#Remove Resource Groups
+az group delete -n RG-AZ103T00M2-VMPortal --no-wait -y
+az group delete -n RG-AZ103T00M2-VMPS --no-wait -y
+az group delete -n RG-AZ103T00M2-VMCLI --no-wait -y

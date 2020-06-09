@@ -1,0 +1,17 @@
+#Demonstration - Creating an Azure VM by Using the Azure Portal
+#In this demonstration, we will create a Virtual Machine using the Azure Portal with the following settings:
+
+Resource Group - RG-AZ103T00M2-VMPortal
+VM Name - myVM1
+Region - East US
+Availability Options - None
+Image - Windows Server 2016 Datacenter
+Size - Standard B2ms
+Username - serveradmin
+Password - ************
+Virtual Network Name - myVnet1
+Address Prefix - 10.1.0.0/16
+Subnet Name - mySubnet1
+Subnet Address Prefix - 10.1.0.0/24
+Boot Diagnostics - Off
+All Other Options - Default

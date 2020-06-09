@@ -1,0 +1,24 @@
+#Demonstration - Custom Routing Tables
+#In this demonstration, you will learn how to create a route table, define a custom route, and associate the route with a subnet.
+#This demonstation requires one Virtual Network and a Subnet.
+
+#Create Virtual Networks using Azure CLI
+
+#Verify Azure CLI Version
+az --version
+
+#Login to Azure
+az login
+
+#View Subscription Information
+az account list --output table
+
+#Select Subscription
+az account set --subscription "Microsoft Azure Internal Consumption"
+
+#Create Resource Group, Virtual Networks, and Subnets
+az group create --name RG-AZ103T00M8-RT --location EastUS
+az network vnet create --resource-group RG-AZ103T00M8-RT --name VNET01 --address-prefix 10.1.0.0/16 --subnet-name FrontEnd --subnet-prefix 10.1.1.0/24
+
+#Remove Resource Group
+az group delete --name RG-AZ103T00M8-RT --no-wait -y

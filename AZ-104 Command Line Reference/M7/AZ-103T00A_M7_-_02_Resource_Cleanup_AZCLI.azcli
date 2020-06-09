@@ -1,0 +1,2 @@
+#Remove Resource Groups
+az group delete -n RG-AZ103T00M7-Fileshare --no-wait -y

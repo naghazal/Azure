@@ -1,0 +1,2 @@
+#Remove Resource Group
+az group delete --name RG-AZ103T00M8-RT --no-wait -y

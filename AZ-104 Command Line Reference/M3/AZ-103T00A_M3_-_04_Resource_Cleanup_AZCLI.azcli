@@ -1,0 +1,4 @@
+#Remove Resource Groups
+az group delete -n RG-AZ103T00M3-PSStorage --no-wait -y
+az group delete -n RG-AZ103T00M3-CLIStorage --no-wait -y
+az group delete -n RG-AZ103T00M3-Fileshare --no-wait -y

@@ -1,0 +1,12 @@
+#Demonstration - Creating Virtual Networks
+#In this demonstration, you will create Virtual Networks
+
+#Create a Virtual Network using the Azure Portal
+#Follow the instructions to create a Virtual Network in the Azure Portal with the following settings:
+Name: myVNet1.
+Address: 10.1.0.0/16.
+Subscription: Your Subscription
+Resource Group: RG-AZ103T00M4-VNETPortal
+Location: EastUS
+Subnet: mySubnet1.
+Subnet Address Range: 10.1.0.0/24

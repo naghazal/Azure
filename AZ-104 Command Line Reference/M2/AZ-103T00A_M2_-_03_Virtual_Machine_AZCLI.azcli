@@ -1,0 +1,9 @@
+#Demonstration - Creating an Azure VM by Using AZ CLI
+#In this demonstration, we will create a virtual machine using AZCLI.
+#This demonstration can be performed from a local AZ CLI session or via Auzre Cloud Shell @ https://portal.azure.com
+
+#Create Resource Group
+az group create -n RG-AZ103T00M2-VMCLI -l EastUS
+
+#Create Virtual Machine
+az vm create -g RG-AZ103T00M2-VMCLI -n myVM3 --size Standard_B2ms  -l EastUS --image Win2012R2Datacenter --vnet-name myVnet3 --vnet-address-prefix 10.3.0.0/16 --subnet mySubnet --subnet-address-prefix 10.3.0.0/24

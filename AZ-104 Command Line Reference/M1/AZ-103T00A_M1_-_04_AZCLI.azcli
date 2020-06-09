@@ -1,0 +1,19 @@
+#Demonstration - Working with Azure CLI Locally
+#In this demonstration, you will install and use the CLI to create resources.
+#To install the Azure CLI for Windows, use the MSI installer from https://aka.ms/installazurecliwindows.
+
+#Verify Azure CLI Version
+az --version
+
+#Login to Azure
+#Azure CLI will typically launch your default browser to open the Azure sign-in page.
+az login
+
+#Create Resource Group
+az group create -n RG-AZ103T00M1-AZCLI -l EastUS
+
+#Verify Resource Group
+az group list
+
+#Verify Resource Group (Concise)
+az group list --output table

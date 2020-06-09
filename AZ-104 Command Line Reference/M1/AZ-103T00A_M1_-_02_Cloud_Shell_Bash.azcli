@@ -1,0 +1,10 @@
+#Demonstation - Cloud Shell
+#In this demonstration, we will experiment with the Cloud Shell @ https://portal.azure.com
+
+#Experiment with the Bash Shell
+
+#View Subscription Information
+az account list
+
+#View Resource Information
+az resource list

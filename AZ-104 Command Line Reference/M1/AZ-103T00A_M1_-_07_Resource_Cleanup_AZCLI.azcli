@@ -1,0 +1,5 @@
+#Remove Resource Groups
+az group delete -n RG-AZ103T00M1-AZPS --no-wait -y
+az group delete -n RG-AZ103T00M1-AZCLI --no-wait -y
+az group delete -n RG-AZ103T00M1-RGLock --no-wait -y
+az group delete -n RG-AZ103T00M1-PSTemplate --no-wait -y

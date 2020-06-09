@@ -1,0 +1,39 @@
+#Demonstration - Create VMs with Multiple NICs using Azure CLI
+#In this demonstration, you will learn how to create and configure multiple NICs and then attach those NICs to a VM.
+
+#Verify Azure CLI Version
+az --version
+
+#Login to Azure
+#Azure CLI will typically launch your default browser to open the Azure sign-in page.
+az login
+
+#View Subscription Information
+az account list --output table
+
+#Select Subscription
+az account set --subscription "Microsoft Azure Internal Consumption"
+
+#Create Resource Group
+az group create -n RG-AZ103T00M4-NICs -l EastUS
+
+#Verify Resource Group
+az group list
+
+#Create Virtual Network
+az network vnet create -g RG-AZ103T00M4-NICs -n myVnet3 --address-prefix 10.3.0.0/16 --subnet-name mySubnetFrontEnd --subnet-prefix 10.3.1.0/24
+
+#Create Subnet
+az network vnet subnet create -g RG-AZ103T00M4-NICs --vnet-name myVnet3 -n mySubnetBackEnd --address-prefix 10.3.2.0/24
+
+#Create Network Security Group
+az network nsg create -g RG-AZ103T00M4-NICs -n myNetworkSecurityGroup
+
+#Create NIC #1
+az network nic create -g RG-AZ103T00M4-NICs -n myNic1 --vnet-name myVnet3 --subnet mySubnetFrontEnd --network-security-group myNetworkSecurityGroup
+
+#Create NIC #2
+az network nic create -g RG-AZ103T00M4-NICs -n myNic2 --vnet-name myVnet3 --subnet mySubnetFrontEnd --network-security-group myNetworkSecurityGroup
+
+#Create Virtual Machine
+az vm create -g RG-AZ103T00M4-NICs -n myVM --image UbuntuLTS --size Standard_B1ms --admin-username azureuser --generate-ssh-keys --nics myNic1 myNic2
