@@ -2,6 +2,7 @@
 
 #Install Powershell Core
 https://github.com/PowerShell/PowerShell/releases/tag/v6.2.2
+https://github.com/PowerShell/PowerShell/releases/tag/v6.2.4
 
 #Check PowerShell version
 $PSVersionTable.PSVersion
