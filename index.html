@@ -5,7 +5,7 @@
     <title></title>
     <link href="https://cdn.botframework.com/botframework-webchat/latest/botchat.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://cdn.botframework.com/botframework-webchat/latest/botchat.js"></script>
+
     <style>
         .wc-chatview-panel {
             width: 350px;
@@ -25,17 +25,10 @@
     </style>
 </head>
 <body>
-    <iframe id="bot" src='https://webchat.botframework.com/embed/azureadvisorbeta?s=8DZC4TQwTMk.vr2Z3HBY5Jo9rlMvZwVa4XKKvz8FQFxN3Aw3VkWcqvI'></iframe>
+    <iframe id="bot" width='400px' height='600px' src='https://webchat.botframework.com/embed/azureadvisorbeta?s=8DZC4TQwTMk.vr2Z3HBY5Jo9rlMvZwVa4XKKvz8FQFxN3Aw3VkWcqvI'></iframe>
 </body>
 </html>
 <script>
-    BotChat.App({
-        directLine: { secret: "{your_directline_secret}" },
-        user: { id: 'You' },
-        bot: { id: '{Your_BotId}' },
-        resize: 'detect'
-    }, document.getElementById("bot"));
-
     $(function () {
         $("div.wc-header").prop("isopen", "true");
 
