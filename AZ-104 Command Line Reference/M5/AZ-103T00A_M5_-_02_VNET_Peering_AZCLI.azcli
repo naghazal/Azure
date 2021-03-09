@@ -22,7 +22,7 @@ az network vnet create -g RG-AZ103T00M5-VNETPeering -n VNET03 --address-prefix 1
 az network vnet create -g RG-AZ103T00M5-VNETPeering -n VNET04 --address-prefix 10.4.0.0/16 --subnet-name FrontEnd --subnet-prefix 10.4.1.0/24
 
 #Create Virtual Network Peering
-$PrimaryVirtualNetworkID=az network vnet show -g RG-AZ103T00M5-VNETPeering -n VNET03 --query id
-$SecondaryVirtualNetworkID=az network vnet show -g RG-AZ103T00M5-VNETPeering -n VNET04 --query id
+PrimaryVirtualNetworkID="$(az network vnet show -g RG-AZ103T00M5-VNETPeering -n VNET03 --query id)"
+SecondaryVirtualNetworkID="$(az network vnet show -g RG-AZ103T00M5-VNETPeering -n VNET04 --query id)"
 az network vnet peering create -g RG-AZ103T00M5-VNETPeering -n VNET03-to-VNET04 --vnet-name VNET03 --remote-vnet $SecondaryVirtualNetworkID --allow-vnet-access
 az network vnet peering create -g RG-AZ103T00M5-VNETPeering -n VNET04-to-VNET03 --vnet-name VNET04 --remote-vnet $PrimaryVirtualNetworkID --allow-vnet-access
